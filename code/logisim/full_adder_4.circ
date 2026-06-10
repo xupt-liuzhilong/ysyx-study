@@ -18,7 +18,7 @@
   <lib desc="#BFH-Praktika" name="9"/>
   <lib desc="#Input/Output-Extra" name="10"/>
   <lib desc="#Soc" name="11"/>
-  <main name="main"/>
+  <main name="full_adder"/>
   <options>
     <a name="gateUndefined" val="ignore"/>
     <a name="simlimit" val="1000"/>
@@ -51,129 +51,6 @@
     <tool lib="4" name="D Flip-Flop"/>
     <tool lib="4" name="Register"/>
   </toolbar>
-  <circuit name="main">
-    <a name="appearance" val="logisim_evolution"/>
-    <a name="circuit" val="main"/>
-    <a name="circuitnamedboxfixedsize" val="true"/>
-    <a name="simulationFrequency" val="1.0"/>
-    <comp lib="0" loc="(100,120)" name="Pin">
-      <a name="appearance" val="classic"/>
-      <a name="facing" val="south"/>
-    </comp>
-    <comp lib="0" loc="(140,120)" name="Pin">
-      <a name="appearance" val="classic"/>
-      <a name="facing" val="south"/>
-    </comp>
-    <comp lib="0" loc="(160,120)" name="Pin">
-      <a name="appearance" val="classic"/>
-      <a name="facing" val="south"/>
-    </comp>
-    <comp lib="0" loc="(180,120)" name="Pin">
-      <a name="appearance" val="classic"/>
-      <a name="facing" val="south"/>
-    </comp>
-    <comp lib="0" loc="(200,120)" name="Pin">
-      <a name="appearance" val="classic"/>
-      <a name="facing" val="south"/>
-    </comp>
-    <comp lib="0" loc="(240,120)" name="Pin">
-      <a name="appearance" val="classic"/>
-      <a name="facing" val="south"/>
-    </comp>
-    <comp lib="0" loc="(260,120)" name="Pin">
-      <a name="appearance" val="classic"/>
-      <a name="facing" val="south"/>
-    </comp>
-    <comp lib="0" loc="(280,120)" name="Pin">
-      <a name="appearance" val="classic"/>
-      <a name="facing" val="south"/>
-    </comp>
-    <comp lib="0" loc="(300,120)" name="Pin">
-      <a name="appearance" val="classic"/>
-      <a name="facing" val="south"/>
-    </comp>
-    <comp lib="0" loc="(630,120)" name="Pin">
-      <a name="appearance" val="classic"/>
-      <a name="facing" val="south"/>
-      <a name="type" val="output"/>
-    </comp>
-    <comp lib="0" loc="(670,120)" name="Pin">
-      <a name="appearance" val="classic"/>
-      <a name="facing" val="south"/>
-      <a name="type" val="output"/>
-    </comp>
-    <comp lib="0" loc="(690,120)" name="Pin">
-      <a name="appearance" val="classic"/>
-      <a name="facing" val="south"/>
-      <a name="type" val="output"/>
-    </comp>
-    <comp lib="0" loc="(710,120)" name="Pin">
-      <a name="appearance" val="classic"/>
-      <a name="facing" val="south"/>
-      <a name="type" val="output"/>
-    </comp>
-    <comp lib="0" loc="(730,120)" name="Pin">
-      <a name="appearance" val="classic"/>
-      <a name="facing" val="south"/>
-      <a name="type" val="output"/>
-    </comp>
-    <comp lib="0" loc="(760,120)" name="Pin">
-      <a name="appearance" val="classic"/>
-      <a name="facing" val="south"/>
-      <a name="type" val="output"/>
-    </comp>
-    <comp lib="0" loc="(790,120)" name="Pin">
-      <a name="appearance" val="classic"/>
-      <a name="facing" val="south"/>
-      <a name="type" val="output"/>
-    </comp>
-    <comp lib="0" loc="(80,120)" name="Pin">
-      <a name="appearance" val="classic"/>
-      <a name="facing" val="south"/>
-    </comp>
-    <comp lib="0" loc="(820,120)" name="Pin">
-      <a name="appearance" val="classic"/>
-      <a name="facing" val="south"/>
-      <a name="type" val="output"/>
-    </comp>
-    <comp loc="(550,150)" name="alu4"/>
-    <wire from="(100,120)" to="(100,310)"/>
-    <wire from="(100,310)" to="(330,310)"/>
-    <wire from="(140,120)" to="(140,230)"/>
-    <wire from="(140,230)" to="(330,230)"/>
-    <wire from="(160,120)" to="(160,250)"/>
-    <wire from="(160,250)" to="(330,250)"/>
-    <wire from="(180,120)" to="(180,270)"/>
-    <wire from="(180,270)" to="(330,270)"/>
-    <wire from="(200,120)" to="(200,290)"/>
-    <wire from="(200,290)" to="(330,290)"/>
-    <wire from="(240,120)" to="(240,150)"/>
-    <wire from="(240,150)" to="(330,150)"/>
-    <wire from="(260,120)" to="(260,170)"/>
-    <wire from="(260,170)" to="(330,170)"/>
-    <wire from="(280,120)" to="(280,190)"/>
-    <wire from="(280,190)" to="(330,190)"/>
-    <wire from="(300,120)" to="(300,210)"/>
-    <wire from="(300,210)" to="(330,210)"/>
-    <wire from="(550,150)" to="(630,150)"/>
-    <wire from="(550,170)" to="(670,170)"/>
-    <wire from="(550,190)" to="(690,190)"/>
-    <wire from="(550,210)" to="(710,210)"/>
-    <wire from="(550,230)" to="(730,230)"/>
-    <wire from="(550,250)" to="(760,250)"/>
-    <wire from="(550,270)" to="(790,270)"/>
-    <wire from="(550,290)" to="(820,290)"/>
-    <wire from="(630,120)" to="(630,150)"/>
-    <wire from="(670,120)" to="(670,170)"/>
-    <wire from="(690,120)" to="(690,190)"/>
-    <wire from="(710,120)" to="(710,210)"/>
-    <wire from="(730,120)" to="(730,230)"/>
-    <wire from="(760,120)" to="(760,250)"/>
-    <wire from="(790,120)" to="(790,270)"/>
-    <wire from="(80,120)" to="(80,330)"/>
-    <wire from="(80,330)" to="(330,330)"/>
-    <wire from="(820,120)" to="(820,290)"/>
-  </circuit>
   <circuit name="full_adder">
     <a name="appearance" val="logisim_evolution"/>
     <a name="circuit" val="full_adder"/>

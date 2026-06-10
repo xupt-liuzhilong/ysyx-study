@@ -60,16 +60,24 @@ screenshots/   实验截图、运行结果截图
 | 2026-06-09 | F3：主从 D 触发器                   | 已完成 |
 | 2026-06-09 | F3：1 位带写使能寄存器 reg1         | 已完成 |
 | 2026-06-09 | F3：4 位带写使能寄存器 reg4         | 已完成 |
+| 2026-06-10 | F3：4 位计数器 counter4             | 已完成 |
+| 2026-06-10 | F3：8 位加法器 adder8               | 已完成 |
+| 2026-06-10 | F3：8 位寄存器 reg8                 | 已完成 |
+| 2026-06-10 | F3：数列求和电路 sequence_sum       | 已完成 |
+| 2026-06-10 | F3：模 10 计数器 counter_mod10      | 已完成 |
+| 2026-06-10 | F3：模 6 计数器 counter_mod6        | 已完成 |
+| 2026-06-10 | F3：电子时钟 digital_clock          | 已完成 |
 
 ------
 
 ## 最近学习记录
 
-- [F1-F3 前半部分学习记录](https://chatgpt.com/g/g-p-6a1ff1a4a1908191a24e2153b56a0a0f/c/notes/F阶段/F1-F3前半部分学习记录.md)
-- [F3 补码加减法器与简易 4 位 ALU](https://chatgpt.com/g/g-p-6a1ff1a4a1908191a24e2153b56a0a0f/c/notes/F阶段/F3-补码加减法器与简易ALU.md)
-- [F3 译码器、编码器、选择器与数码管](https://chatgpt.com/g/g-p-6a1ff1a4a1908191a24e2153b56a0a0f/c/notes/F阶段/F3-译码器编码器选择器与数码管.md)
-- [F3 比较器与借位减法器](https://chatgpt.com/g/g-p-6a1ff1a4a1908191a24e2153b56a0a0f/c/notes/F阶段/F3-比较器与借位减法器.md)
-- [F3 时序逻辑入门与寄存器](https://chatgpt.com/g/g-p-6a1ff1a4a1908191a24e2153b56a0a0f/c/notes/F阶段/F3-时序逻辑入门与寄存器.md)
+- [F1-F3 前半部分学习记录](notes/F阶段/F1-F3前半部分学习记录.md)
+- [F3 补码加减法器与简易 4 位 ALU](notes/F阶段/F3-补码加减法器与简易ALU.md)
+- [F3 译码器、编码器、选择器与数码管](notes/F阶段/F3-译码器编码器选择器与数码管.md)
+- [F3 比较器与借位减法器](notes/F阶段/F3-比较器与借位减法器.md)
+- [F3 时序逻辑入门与寄存器](notes/F阶段/F3-时序逻辑入门与寄存器.md)
+- [F3 计数器、数列求和电路与电子时钟](notes/F阶段/F3-计数器求和电路与电子时钟.md)
 
 ------
 
@@ -134,18 +142,27 @@ half_adder
 → adder4
 ```
 
+半加器：
+
+```text
+Sum = A XOR B
+Carry = A & B
+```
+
+全加器：
+
+```text
+Sum = A XOR B XOR Cin
+Cout = (A & B) | ((A XOR B) & Cin)
+```
+
 ------
 
 ### F3：补码加减法器
 
 - 理解 4 位无符号数和 4 位补码的表示范围
 - 理解原码、反码、补码
-- 理解减法可以通过补码转换为加法：
-
-```text
-A - B = A + (~B + 1)
-```
-
+- 理解减法可以通过补码转换为加法
 - 在 `adder4` 基础上实现 4 位加减法器 `add_sub4`
 - 区分 `add_sub4` 和传统全减器 Full Subtractor
 - 理解 `Cout` 和 `Overflow` 的区别
@@ -154,6 +171,7 @@ A - B = A + (~B + 1)
 核心公式：
 
 ```text
+A - B = A + (~B + 1)
 S = A + (B XOR Sub) + Sub
 ```
 
@@ -163,6 +181,8 @@ S = A + (B XOR Sub) + Sub
 | ---- | ----- |
 | 0    | A + B |
 | 1    | A - B |
+
+`Cout` 面向无符号进位，`Overflow` 面向有符号补码溢出。
 
 ------
 
@@ -254,7 +274,7 @@ Valid = I3 | I2 | I1 | I0
 - 封装 `mux_1bit_4_1`
 - 使用 3 个 1 位 MUX 搭建 3 位 4 选 1 MUX
 - 理解多位 MUX 的本质：多个 1 位 MUX 并联，共用同一组选通信号
-- 在可切换数码管显示电路中进一步使用 MUX 完成模式选择
+- 在 ALU 和可切换数码管显示电路中进一步使用 MUX 完成模式选择
 
 1 位 4 选 1 MUX 选择规则：
 
@@ -350,7 +370,6 @@ Bout = (~A & B) | (~(A XOR B) & Bin)
 - 理解 D 触发器是边沿敏感电路
 - 完成 1 位带写使能寄存器 `reg1`
 - 完成 4 位带写使能寄存器 `reg4`
-- 理解寄存器的作用是保存数据，而不是计算数据
 
 时序逻辑学习链路：
 
@@ -398,9 +417,82 @@ Simulate → Reset Simulation
 
 ------
 
+### F3：计数器、数列求和电路与电子时钟
+
+- 解决 Logisim 中不同 `.circ` 文件之间模块复用的问题
+- 理解导入库时 `MAIN` 命名冲突的原因
+- 使用 `reg4 + adder4` 搭建 4 位计数器 `counter4`
+- 理解 `Q_next = Q + 1` 的计数器结构
+- 理解 `Cout` 是组合逻辑当前计算结果，不是寄存器保存状态
+- 使用两个 `adder4` 级联完成 `adder8`
+- 使用两个 `reg4` 并联完成 `reg8`
+- 使用 `cnt` 和 `sum` 两个寄存器实现 `1+2+...+10`
+- 完成数列求和电路 `sequence_sum`
+- 完成 `counter_mod10`，实现 0~9 计数
+- 完成 `counter_mod6`，实现 0~5 计数
+- 使用 `mod10` 和 `mod6` 级联实现电子时钟
+- 使用七段数码管显示 `MM:SS`
+- 理解 Clock 元件自动产生时钟信号的方法
+
+计数器核心结构：
+
+```text
+reg4.Q → adder4.A
+0001   → adder4.B
+adder4.S → reg4.D
+```
+
+数列求和核心逻辑：
+
+```text
+cnt_next = cnt + 1
+sum_next = sum + cnt_next
+```
+
+数列求和最终结果：
+
+```text
+1 + 2 + ... + 10 = 55
+55 = 0011 0111
+```
+
+电子时钟模块结构：
+
+```text
+sec_ones：counter_mod10
+sec_tens：counter_mod6
+min_ones：counter_mod10
+min_tens：counter_mod6
+```
+
+进位关系：
+
+```text
+sec_ones.EN = RUN
+sec_tens.EN = sec_ones.Carry
+min_ones.EN = sec_ones.Carry & sec_tens.Carry
+min_tens.EN = sec_ones.Carry & sec_tens.Carry & min_ones.Carry
+```
+
+最终显示：
+
+```text
+MM:SS
+```
+
+Clock 元件使用：
+
+```text
+Wiring → Clock
+Simulate → Auto-Tick Enabled
+Simulate → Auto-Tick Frequency
+```
+
+------
+
 ## 当前模块层次
 
-目前已经完成的算术模块层次如下：
+### 算术模块
 
 ```text
 half_adder
@@ -408,12 +500,16 @@ half_adder
 → adder4
 → add_sub4
 → alu4
+adder4
+→ adder8
 half_subtractor
 → full_subtractor
 → subtractor4
 ```
 
-组合逻辑补充模块：
+------
+
+### 组合逻辑模块
 
 ```text
 decoder
@@ -426,7 +522,9 @@ decoder
 → compare4
 ```
 
-时序逻辑模块：
+------
+
+### 时序逻辑模块
 
 ```text
 S_R_latch
@@ -434,11 +532,56 @@ S_R_latch
 → D_flip_flop
 → reg1
 → reg4
+→ reg8
 ```
 
-通过这些实验，已经初步理解了硬件设计中的模块化思想：
+------
 
-> 小模块可以组成大模块，大模块继续组成更复杂的硬件系统。
+### 时序逻辑综合模块
+
+```text
+reg4 + adder4
+→ counter4
+→ counter_mod10 / counter_mod6
+→ digital_clock
+reg4 + adder4 + reg8 + adder8
+→ sequence_sum
+```
+
+------
+
+## F3 阶段总结
+
+F3 阶段主要从基础门电路开始，逐步完成了组合逻辑、算术逻辑、时序逻辑以及综合电路实验。
+
+目前已经完成：
+
+- 基本门电路
+- 半加器、全加器、4 位加法器
+- 补码加减法器
+- 简易 ALU
+- 译码器、编码器、优先编码器
+- 多路选择器
+- 七段数码管显示
+- 比较器
+- 半减器、全减器、4 位借位减法器
+- S-R 锁存器
+- D 锁存器
+- 主从 D 触发器
+- 1 位寄存器、4 位寄存器、8 位寄存器
+- 4 位计数器
+- 数列求和电路
+- 模 10 / 模 6 计数器
+- 电子时钟
+
+通过 F3 阶段，我初步理解了硬件设计中的几个重要思想：
+
+1. 小模块可以组合成大模块。
+2. 组合逻辑负责“计算”。
+3. 时序逻辑负责“保存状态”。
+4. 寄存器、加法器、MUX、比较器可以组合成更复杂的数据通路。
+5. 控制信号决定数据在电路中的流向。
+6. CPU 中的寄存器、PC、ALU、状态机都可以从这些基础电路逐步理解。
 
 ------
 
@@ -465,8 +608,8 @@ S_R_latch
 
 ## 下一步计划
 
-- 使用 `reg4 + adder4` 搭建 4 位计数器 `counter4`
-- 理解计数器的核心逻辑：`Q_next = Q + 1`
-- 理解 PC 的基本雏形
-- 学习寄存器组 Register File
-- 继续理解 CPU 中时钟、状态和控制信号的作用
+- 整理 F3 阶段总复盘
+- 检查并规范所有 `.circ` 文件命名
+- 整理实验截图到 `screenshots/F3/`
+- 进入一生一芯下一阶段学习
+- 从 Logisim 电路设计逐步过渡到 Verilog / C / PA 预学习
