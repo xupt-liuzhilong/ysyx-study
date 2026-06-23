@@ -233,27 +233,31 @@ F6 阶段开始从自定义 sISA 处理器过渡到更加接近真实 RISC-V 的
 - 实现 `x0` 恒为 0
 - 拆解 `addi` 指令字段
 - 完成 12 位立即数符号扩展到 32 位
-- 成功执行第一条 miniRV 指令：`addi a0, zero, 20`
+- 成功执行 `addi a0, zero, 20`
+- 实现 `jalr` 指令
+- 理解 `jalr` 的跳转和返回逻辑
+- 实现 `add` 指令
+- 实现 `lui` 指令
+- 将写回通路改造成 4 选 1 MUX
+- 当前已支持 `addi`、`jalr`、`add`、`lui` 四条指令
 
-F6 当前运行结果：
-
-```text
-addi a0, zero, 20
-```
-
-执行后：
-
-```text
-x10 = 00000014
-```
-
-其中：
+当前支持的 miniRV 指令：
 
 ```text
-00000014 = 20
+addi
+jalr
+add
+lui
 ```
 
-说明 `addi` 指令已经正确执行。
+当前测试结果：
+
+```text
+addi x1, x0, 10  → x1 = 0000000A
+addi x2, x0, 20  → x2 = 00000014
+add  x3, x1, x2  → x3 = 0000001E
+lui  x4, 0x12345 → x4 = 12345000
+```
 
 F6 核心理解：
 
@@ -263,14 +267,15 @@ RISC-V 指令宽度是 32 位
 PC 默认每次 +4
 ROM 地址应使用 PC[5:2]
 x0 永远为 0
+不同指令通过控制信号选择不同数据通路
 ```
 
 学习记录：
 
 - [F6 miniRV 基础与 addi 指令](notes/F阶段/F6-miniRV基础与addi指令.md)
+- [F6 addi、jalr、add、lui 指令实现](notes/F阶段/F6-addi-jalr-add-lui指令.md)
 
 ------
-
 ## 当前模块积累
 
 ### 算术模块
@@ -340,10 +345,15 @@ gpr4x8
 gpr16x32
 adder32
 sign_extend
+lui_data
 control_logic
+writeback_mux
 sCPU
 miniRV_fetch
 miniRV_addi_datapath
+miniRV_jalr_datapath
+miniRV_add_datapath
+miniRV_lui_datapath
 ```
 
 ------
@@ -387,8 +397,10 @@ miniRV_addi_datapath
 ## 下一步计划
 
 - 继续学习 F6 阶段
-- 实现 `jalr` 指令
-- 理解 `rd = PC + 4`
-- 理解 `PC = (rs1 + imm) & ~1`
-- 完成只支持 `addi` 和 `jalr` 的 miniRV 处理器
-- 后续继续扩展 `add`、`lui`、`lw`、`lbu`、`sw`、`sb`
+- 加入数据 RAM
+- 实现 `lw` 指令
+- 实现 `lbu` 指令
+- 实现 `sw` 指令
+- 实现 `sb` 指令
+- 将 RAM 读数据接入写回 MUX 的第 4 路
+- 完成 miniRV 8 条指令处理器
