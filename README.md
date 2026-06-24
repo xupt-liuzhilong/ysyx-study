@@ -216,6 +216,8 @@ CPU 设计 = 用数字电路实现 ISA 状态机
 
 - [F5 sCPU 设计过程中的问题与解决](problems/F阶段/F5-sCPU设计问题记录.md)
 
+------
+
 ### F6：功能完备的迷你 RISC-V 处理器
 
 F6 阶段开始从自定义 sISA 处理器过渡到更加接近真实 RISC-V 的 miniRV 处理器。
@@ -231,15 +233,15 @@ F6 阶段开始从自定义 sISA 处理器过渡到更加接近真实 RISC-V 的
 - 使用 `PC[5:2]` 作为 ROM 地址
 - 搭建 `gpr16x32` 通用寄存器堆
 - 实现 `x0` 恒为 0
-- 拆解 `addi` 指令字段
-- 完成 12 位立即数符号扩展到 32 位
-- 成功执行 `addi a0, zero, 20`
+- 拆解并实现 `addi` 指令
 - 实现 `jalr` 指令
-- 理解 `jalr` 的跳转和返回逻辑
 - 实现 `add` 指令
 - 实现 `lui` 指令
 - 将写回通路改造成 4 选 1 MUX
-- 当前已支持 `addi`、`jalr`、`add`、`lui` 四条指令
+- 加入 Data RAM
+- 实现 `lw` 指令
+- 实现 `sw` 指令
+- 当前已支持 `addi`、`jalr`、`add`、`lui`、`lw`、`sw` 六条指令
 
 当前支持的 miniRV 指令：
 
@@ -248,6 +250,8 @@ addi
 jalr
 add
 lui
+lw
+sw
 ```
 
 当前测试结果：
@@ -257,6 +261,8 @@ addi x1, x0, 10  → x1 = 0000000A
 addi x2, x0, 20  → x2 = 00000014
 add  x3, x1, x2  → x3 = 0000001E
 lui  x4, 0x12345 → x4 = 12345000
+lw   x5, 4(x0)   → x5 = RAM[1]
+sw   x5, 4(x0)   → RAM[1] = x5
 ```
 
 F6 核心理解：
@@ -267,6 +273,7 @@ RISC-V 指令宽度是 32 位
 PC 默认每次 +4
 ROM 地址应使用 PC[5:2]
 x0 永远为 0
+RISC-V 使用字节地址，访问 32 位 RAM 时地址需要右移 2 位
 不同指令通过控制信号选择不同数据通路
 ```
 
@@ -274,8 +281,14 @@ x0 永远为 0
 
 - [F6 miniRV 基础与 addi 指令](notes/F阶段/F6-miniRV基础与addi指令.md)
 - [F6 addi、jalr、add、lui 指令实现](notes/F阶段/F6-addi-jalr-add-lui指令.md)
+- [F6 lw 与 sw 访存指令实现](notes/F阶段/F6-lw-sw访存指令.md)
+
+问题记录：
+
+- [F6 RAM 访存问题记录](problems/F阶段/F6-RAM访存问题记录.md)
 
 ------
+
 ## 当前模块积累
 
 ### 算术模块
@@ -346,6 +359,7 @@ gpr16x32
 adder32
 sign_extend
 lui_data
+Data_RAM
 control_logic
 writeback_mux
 sCPU
@@ -354,6 +368,8 @@ miniRV_addi_datapath
 miniRV_jalr_datapath
 miniRV_add_datapath
 miniRV_lui_datapath
+miniRV_lw_datapath
+miniRV_sw_datapath
 ```
 
 ------
@@ -397,10 +413,7 @@ miniRV_lui_datapath
 ## 下一步计划
 
 - 继续学习 F6 阶段
-- 加入数据 RAM
-- 实现 `lw` 指令
 - 实现 `lbu` 指令
-- 实现 `sw` 指令
 - 实现 `sb` 指令
-- 将 RAM 读数据接入写回 MUX 的第 4 路
+- 理解字节地址低 2 位如何选择 word 内部字节
 - 完成 miniRV 8 条指令处理器
