@@ -640,6 +640,7 @@
       <a name="asyncread" val="true"/>
       <a name="byteenables" val="byteEnables"/>
       <a name="dataWidth" val="32"/>
+      <a name="type" val="nonvolatile"/>
     </comp>
     <comp lib="4" loc="(260,330)" name="Register">
       <a name="appearance" val="logisim_evolution"/>
@@ -649,8 +650,8 @@
       <a name="addrWidth" val="4"/>
       <a name="appearance" val="logisim_evolution"/>
       <a name="contents">addr/data: 4 32
-a00093 1400113 2081b3 12345237 302223 402283 404303 aa00393
-7002a3 504403 2800067
+402283 9000313 6003a3 ab00313 600323 cd00313 6002a3 ef00313
+600223 402383 2800067
 </a>
       <a name="dataWidth" val="32"/>
     </comp>
