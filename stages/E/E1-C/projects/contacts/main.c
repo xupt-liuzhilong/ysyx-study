@@ -42,6 +42,7 @@ int main() {
             PrintContact(&con);
             break;
         case EXIT:
+            DestoryContact(&con);
             printf("退出程序!\n");
             break;
         default:

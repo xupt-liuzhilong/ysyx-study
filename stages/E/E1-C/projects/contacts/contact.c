@@ -1,18 +1,67 @@
 #include "contact.h"
 
-void InitContact(Contact* pc) {
-    // 将内存上的数据都初始化成0
-    memset(pc->data, 0, sizeof(pc->data));
+// 初始化通讯录（静态版）
+// void InitContact(Contact* pc) {
+//     // 将内存上的数据都初始化成0
+//     memset(pc->data, 0, sizeof(pc->data));
 
-    // 刚开始通讯录没有联系人
+//     // 刚开始通讯录没有联系人
+//     pc->sz = 0;
+// }
+
+// 初始化通讯录（动态版）
+void InitContact(Contact* pc) {
+    //动态申请一段空间
+    pc->data = (PeoInfo*)malloc(DEFAULT_SZ * sizeof(PeoInfo));
+    if (pc->data == NULL) {
+        perror("InitContact");
+        printf("初始化失败！\n");
+    }
+
     pc->sz = 0;
+    pc->capacity = DEFAULT_SZ;
+
+    printf("初始化成功！\n");
 }
 
 
+// 添加联系人信息（静态版）
+// void AddContact(Contact* pc) {
+//     // 判通讯录是否已满
+//     if (pc->sz == MAX) {
+//         printf("通讯录已满!\n");
+//     }
+
+//     // 输入信息
+//     printf("姓名：");
+//     scanf("%s", pc->data[pc->sz].name);
+//     printf("性别：");
+//     scanf("%s", pc->data[pc->sz].sex);
+//     printf("年龄：");
+//     scanf("%d",&(pc->data[pc->sz].age));
+//     printf("电话：");
+//     scanf("%s", pc->data[pc->sz].tele);
+//     printf("住址：");
+//     scanf("%s", pc->data[pc->sz].addr);
+//     pc->sz++;
+
+//     printf("添加成功!\n");
+// }
+
+// 添加联系人信息（动态版）
 void AddContact(Contact* pc) {
-    // 判断通讯录是否已满
-    if (pc->sz == MAX) {
-        printf("通讯录已满！\n");
+    // 通讯录扩容
+    if (pc->sz == pc->capacity) {
+        PeoInfo* ptr = (PeoInfo*)realloc(pc->data, (DEFAULT_SZ + INC_SZ) * sizeof(PeoInfo));
+        if (ptr == NULL) {
+            perror("AddContact");
+            printf("扩容失败！\n");
+        }
+        pc->data = ptr;
+        
+        pc->capacity += INC_SZ;
+
+        printf("扩容成功！\n");
     }
 
     // 输入信息
@@ -143,4 +192,12 @@ void SortContact(Contact* pc) {
     }
 
     printf("按照姓名从小到大排序成功！\n");
+}
+
+void DestoryContact(Contact* pc) {
+    free(pc->data);
+    pc->data = NULL;
+
+    pc->sz = 0;
+    pc->capacity = 0;
 }
