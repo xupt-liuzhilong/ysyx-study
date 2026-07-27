@@ -1,3 +1,9 @@
+// 模拟实现一个通讯录
+
+// 第一版：完成通讯录的一些基本操作
+// 第二版：使用动态内存分配控制通讯录大小
+// 第三版：通过文件加载和保存通讯录数据
+
 #include "contact.h"
 
 void menu() {
@@ -14,6 +20,7 @@ int main() {
 
     Contact con;
     InitContact(&con);
+    LoadContact(&con);
     
     do {
         system("cls");
@@ -42,6 +49,7 @@ int main() {
             PrintContact(&con);
             break;
         case EXIT:
+            SaveContact(&con);
             DestoryContact(&con);
             printf("退出程序!\n");
             break;

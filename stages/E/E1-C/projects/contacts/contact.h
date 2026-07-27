@@ -47,6 +47,9 @@ enum Option {
 // 初始化通讯录
 void InitContact(Contact* pc);
 
+// 加载通讯录
+void LoadContact(Contact* pc);
+
 // 添加联系人信息
 void AddContact(Contact* pc);
 
@@ -64,6 +67,9 @@ void ModifyContact(Contact* pc);
 
 // 排序联系人信息
 void SortContact(Contact* pc);
+
+// 保存通讯录
+void SaveContact(Contact* pc);
 
 // 销毁通讯录
 void DestoryContact(Contact* pc);

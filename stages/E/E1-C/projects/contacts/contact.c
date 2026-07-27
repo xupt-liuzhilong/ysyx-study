@@ -25,6 +25,47 @@ void InitContact(Contact* pc) {
 }
 
 
+// 扩容通讯录
+static void ExpandContact(Contact* pc) {
+    if (pc->sz == pc->capacity) {
+        PeoInfo* ptr = (PeoInfo*)realloc(pc->data, (DEFAULT_SZ + INC_SZ) * sizeof(PeoInfo));
+        if (ptr == NULL) {
+            perror("AddContact");
+            printf("扩容失败！\n");
+        }
+        pc->data = ptr;
+        
+        pc->capacity += INC_SZ;
+
+        printf("扩容成功！\n");
+    }
+}
+
+
+void LoadContact(Contact* pc) {
+    FILE* pf = fopen("contact.dat", "r");
+    if (pf == NULL) {
+        perror("LoadContact");
+        return;
+    }
+
+    // 读取数据
+    PeoInfo tmp;
+    while (fread(&tmp, sizeof(PeoInfo), 1, pf)) {
+        // 扩容通讯录
+        ExpandContact(pc);
+
+        pc->data[pc->sz] = tmp;
+        pc->sz++;
+    }
+
+    printf("数据加载成功！\n");
+
+    fclose(pf);
+    pf = NULL;
+}
+
+
 // 添加联系人信息（静态版）
 // void AddContact(Contact* pc) {
 //     // 判通讯录是否已满
@@ -48,21 +89,11 @@ void InitContact(Contact* pc) {
 //     printf("添加成功!\n");
 // }
 
+
 // 添加联系人信息（动态版）
 void AddContact(Contact* pc) {
     // 通讯录扩容
-    if (pc->sz == pc->capacity) {
-        PeoInfo* ptr = (PeoInfo*)realloc(pc->data, (DEFAULT_SZ + INC_SZ) * sizeof(PeoInfo));
-        if (ptr == NULL) {
-            perror("AddContact");
-            printf("扩容失败！\n");
-        }
-        pc->data = ptr;
-        
-        pc->capacity += INC_SZ;
-
-        printf("扩容成功！\n");
-    }
+    ExpandContact(pc);
 
     // 输入信息
     printf("姓名：");
@@ -193,6 +224,26 @@ void SortContact(Contact* pc) {
 
     printf("按照姓名从小到大排序成功！\n");
 }
+
+
+void SaveContact(Contact* pc) {
+    FILE* pf = fopen("contact.dat", "w");
+    if (pf == NULL) {
+        perror("SaveContact");
+        return;
+    }
+
+    // 写入数据
+    for (int i = 0; i < pc->sz; i++) {
+        fwrite(pc->data + i, sizeof(PeoInfo), 1, pf);
+    }
+
+    printf("数据保存成功！\n");
+
+    fclose(pf);
+    pf = NULL;
+}
+
 
 void DestoryContact(Contact* pc) {
     free(pc->data);
