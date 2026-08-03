@@ -1,0 +1,2 @@
+Hello from local machine.
+This file is transferred by scp.

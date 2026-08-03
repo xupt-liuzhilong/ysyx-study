@@ -1,0 +1,7 @@
+2026-08-02 INFO login user=alice ip=10.0.0.2
+2026-08-02 FAIL login_failed user=bob ip=10.0.0.7
+2026-08-02 WARN disk_usage=82%
+2026-08-02 INFO logout user=alice
+2026-08-02 FAIL timeout service=database
+2026-08-02 INFO login user=charlie ip=10.0.0.9
+2026-08-02 FAIL login_failed user=bob ip=10.0.0.7
