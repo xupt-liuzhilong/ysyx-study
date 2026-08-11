@@ -17,15 +17,15 @@ resources/  官方链接、资料链接和工具文件
 ## 当前进度
 
 | 阶段 | 内容 | 状态 |
-| ---- | ---- | ---- |
-| F | Logisim、数字逻辑、简单处理器、miniRV | 基本完成 |
-| E1-C | C 语言复习与基础补充 | 进行中 |
-| E2-HDL | HDL 与硬件描述语言 | 未开始 |
-| E3-Linux | Linux 基础 | 未开始 |
-| E4-Binary | 二进制与计算机系统基础 | 未开始 |
-| E5-RTL-to-Layout | RTL 到版图流程 | 未开始 |
-| E6-PA1 | PA1 预学习 | 未开始 |
-| E7-Application | 应用与综合实践 | 未开始 |
+|---|---|---|
+| E1-HDL | 硬件描述语言 | 待验收 |
+| E2-C | C 语言程序设计 | 已完成基础学习，待新版验收 |
+| E3-Linux | Linux 系统安装和基本使用 | 进行中 |
+| E4-Simulation-Verification | 处理器的仿真和验证 | 未开始 |
+| E5-minirv | 功能完备的迷你 RISC-V 处理器 | 未开始 |
+| E6-Runtime | 简易运行时环境 | 未开始 |
+| E7-Bus-SoC | 简易总线和 SoC | 未开始 |
+| E8-Backend | 综合与后端物理设计 | 未开始 |
 
 ---
 
